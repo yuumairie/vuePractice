@@ -20,6 +20,7 @@
 
 <script>
 import axios from "axios";
+// import axiosAuth from "./axios-auth";
 
 export default {
   data() {
@@ -31,28 +32,26 @@ export default {
   },
   created() {
     axios
-      .get(
-        "https://firestore.googleapis.com/v1/projects/vuejs-http-9d94e/databases/(default)/documents/comments"
-      )
+      .get("/comments")
       .then(response => {
         this.posts = response.data.documents;
+      })
+      .catch(error => {
+        console.log(error)
       });
   },
   methods: {
     createComment() {
-      axios.post(
-        "https://firestore.googleapis.com/v1/projects/vuejs-http-9d94e/databases/(default)/documents/comments",
-        {
-          fields: {
-            name: {
-              stringValue: this.name
-            },
-            comment: {
-              stringValue: this.comment
-            }
+      axios.post("/comments", {
+        fields: {
+          name: {
+            stringValue: this.name
+          },
+          comment: {
+            stringValue: this.comment
           }
         }
-      );
+      });
 
       this.name = "";
       this.comment = "";
