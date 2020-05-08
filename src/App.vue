@@ -1,62 +1,34 @@
 <template>
   <div id="app">
-    <h3>掲示板に投稿する</h3>
-    <label for="name">ニックネーム</label>
-    <input type="text" id="name" v-model="name" />
-    <br />
-    <br />
-    <label for="comment">コメント</label>
-    <textarea id="comment" v-model="comment"></textarea>
-    <br />
-    <br />
-    <button @click="createComment">コメントをサーバーに送る</button>
-    <h2>掲示板</h2>
-    <div v-for="post in posts" :key="post.name">
-      <div>名前:{{post.fields.name.stringValue}}</div>
-      <div>コメント:{{post.fields.comment.stringValue}}</div>
-    </div>
+    <header>
+      <template v-if="isAuthenticated">
+        <router-link to="/" class="header-item">掲示板</router-link>
+        <span class="header-item" @click="logout">ログアウト</span>
+      </template>
+      
+      <template v-if="!isAuthenticated">
+        <router-link to="/login" class="header-item">ログイン</router-link>
+
+        <router-link to="/register" class="header-item">登録</router-link>
+      </template>
+    </header>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-// import axiosAuth from "./axios-auth";
-
 export default {
-  data() {
-    return {
-      name: "",
-      comment: "",
-      posts: []
-    };
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.idToken !== null;
+    }
   },
-  created() {
-    axios
-      .get("/comments")
-      .then(response => {
-        this.posts = response.data.documents;
-      })
-      .catch(error => {
-        console.log(error)
-      });
-  },
-  methods: {
-    createComment() {
-      axios.post("/comments", {
-        fields: {
-          name: {
-            stringValue: this.name
-          },
-          comment: {
-            stringValue: this.comment
-          }
-        }
-      });
-
-      this.name = "";
-      this.comment = "";
+  methods:{
+    logout(){
+      this.$store.dispatch('logout')
     }
   }
+
 };
 </script>
 
@@ -69,5 +41,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+</style>
+
+<style scoped>
+.header-item {
+  padding: 10px;
+  cursor: pointer;
 }
 </style>

@@ -1,9 +1,8 @@
 import Axios from "axios";
 
-
-const instance =Axios.create({
+const instance = Axios.create({
   baseURL:
-    'https://firestore.googleapis.com/v1/projects/vuejs-http-9d94e/databases/(default)/documents'
+    "https://identitytoolkit.googleapis.com/v1"
 });
 
 export default instance

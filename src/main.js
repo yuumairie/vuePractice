@@ -1,6 +1,8 @@
 import Vue from "vue";
 import App from "./App.vue";
 import axios from "axios";
+import router from "./router"
+import store from './store/index'
 
 Vue.config.productionTip = false;
 
@@ -34,6 +36,12 @@ const interceptorsResponse = axios.interceptors.response.use(
 axios.interceptors.request.eject(interceptorsRequest);
 axios.interceptors.response.eject(interceptorsResponse);
 
-new Vue({
-  render: h => h(App)
-}).$mount("#app");
+store.dispatch('autoLogin').then(() => {
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount("#app");
+})
+
+
