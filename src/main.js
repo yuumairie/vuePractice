@@ -25,7 +25,6 @@ const interceptorsRequest = axios.interceptors.request.use(
 );
 const interceptorsResponse = axios.interceptors.response.use(
   response => {
-    // console.log("interceptors response", response);
     return response;
   },
   error => {
