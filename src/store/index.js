@@ -104,6 +104,9 @@ export default new Vuex.Store({
       localStorage.removeItem("expiryTimeMs");
       localStorage.removeItem("refreshToken");
       router.replace("/login");
+
+
+      
     }
   }
 });
