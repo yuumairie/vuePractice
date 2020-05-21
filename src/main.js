@@ -23,6 +23,9 @@ const interceptorsRequest = axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+
+
 const interceptorsResponse = axios.interceptors.response.use(
   response => {
     return response;
